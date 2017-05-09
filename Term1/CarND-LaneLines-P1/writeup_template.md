@@ -1,47 +1,31 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
-
-The goals / steps of this project are the following:
-* Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
-
-
-[//]: # (Image References)
-
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
----
-
-### Reflection
-
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+**Pineline for Finding Lane Lines on the Road**
+Below are the steps used to build my Pipeline  (Name of pipeline: findingline_pipeline):
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+1)  I have converted my image to grey scale.
+2) Used Gaussian Noise functions to eliminate the noise with kernel value 7
+3)Next is canny edge function is used to find the edges and here is the lower and higher values defined for canny edge function 50 , 150 respectively.
+4)Next is to select the region of intreset by using the provided function region_of_intrest with the parameters [[(440,300),(500, 300),(880, 539),(80,539)]]
+5)used the  hough_lines functions to draw the lines on the image with several trail and error finally concluded for the below values rho=2, theta=np.pi/180, threshold=3, min_line_len=20, max_line_len=10
+6)weighted_img is the function which combines the houge function output and the initial image, which draws the lines on the final image.
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+Next step is to extrapolate the lines drawn by the houge function.
+For this I have used method of average the gradients and intercepts of the postive and negative hough lines
 
-![alt text][image1]
-
+Next once the lines are extrapolated used the same for the video stream (as the video stream is a combination of multiple image frames)
 
 ### 2. Identify potential shortcomings with your current pipeline
 
 
-One potential shortcoming would be what would happen when ... 
+´Technique used t extrapolaed the lines can be implemented in a better way.
 
-Another shortcoming could be ...
+
+----------
 
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+As of now no improvements 
