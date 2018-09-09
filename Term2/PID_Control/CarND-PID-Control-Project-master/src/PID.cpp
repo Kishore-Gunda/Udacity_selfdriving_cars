@@ -18,6 +18,14 @@ void PID::Init(double Kp, double Ki, double Kd) {
 }
 
 void PID::UpdateError(double cte) {
+  /*if(this->prev_cte == 0xffff){
+    this->prev_cte = cte;
+  }*/
+  if(FirstCall == false){
+    FirstCall = true;
+    prev_cte = cte;
+  }
+
   this->p_error = cte;
   this->i_error += cte;
   this->d_error =  cte - this->prev_cte;
