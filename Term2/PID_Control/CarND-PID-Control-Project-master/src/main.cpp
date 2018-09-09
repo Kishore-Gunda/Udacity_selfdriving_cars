@@ -34,7 +34,8 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.15800642,0.0002514012,0.72260);
+  pid.Init(0.158007,0.00025140,0.7226);
+  
   //pid.Init(0.1,0.00000,3.5,false); //P I D and twiddle.
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -72,7 +73,9 @@ int main()
           // DEBUG
           //std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
           //Low throttle if high cte or high radius of curvature
-          throttle = throttle - fabs(cte)*0.25 - fabs(steer_value)*0.2;
+          double min_speed = 10;
+          double throttle = 0.65;
+		  throttle = throttle - fabs(cte)*0.25 - fabs(steer_value)*0.2;
           if(speed < min_speed)
             throttle = 0.2;
           //if(throttle<0.2)

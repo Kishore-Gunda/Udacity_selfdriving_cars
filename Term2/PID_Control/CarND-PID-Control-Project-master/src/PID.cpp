@@ -14,19 +14,16 @@ void PID::Init(double Kp, double Ki, double Kd) {
   this->Kp = Kp;
   this->Ki = Ki;
   this->Kd = Kd;
+  prev_cte = cte;
 }
 
 void PID::UpdateError(double cte) {
-  if(error_initial == false){
-    error_initial = true;
-    prev_cte = cte;
-}
   this->p_error = cte;
   this->i_error += cte;
   this->d_error =  cte - this->prev_cte;
-
-  
   this->prev_cte = cte;
+  
+  
 }
 ;
 
