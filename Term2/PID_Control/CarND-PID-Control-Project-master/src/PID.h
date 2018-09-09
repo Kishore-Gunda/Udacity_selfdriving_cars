@@ -17,6 +17,9 @@ public:
   double Ki;
   double Kd;
 
+  double prev_cte;
+  bool error_initial;
+  
   /*
   * Constructor
   */
@@ -29,7 +32,7 @@ public:
 
   /*
   * Initialize PID.
-  */
+  */ 
   void Init(double Kp, double Ki, double Kd);
 
   /*
