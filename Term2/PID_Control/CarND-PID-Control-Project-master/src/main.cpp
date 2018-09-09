@@ -48,6 +48,8 @@ int main()
         std::string event = j[0].get<std::string>();
         if (event == "telemetry") {
           // j[1] is the data JSON object
+          double min_speed = 12;
+          double throttle = 0.6;
           double cte = std::stod(j[1]["cte"].get<std::string>());
           double speed = std::stod(j[1]["speed"].get<std::string>());
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
@@ -68,11 +70,16 @@ int main()
             steer_value = -0.8;
           }
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
-
+          //std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          //Low throttle if high cte or high radius of curvature
+          throttle = throttle - fabs(cte)*0.25 - fabs(steer_value)*0.2;
+          if(speed < min_speed)
+            throttle = 0.2;
+          //if(throttle<0.2)
+          //  throttle = 0.2;
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = throttle; //0.5;//pid.p_tht;//throttle;// 0.3;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
