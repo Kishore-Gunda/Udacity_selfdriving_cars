@@ -34,7 +34,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.15800642,0.0002514012,0.72260);
+  pid.Init(0.15800642,0.0002514012,0.72260,false); //P I D and twiddle.
   //pid.Init(0.1,0.00000,3.5,false); //P I D and twiddle.
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -81,7 +81,8 @@ int main()
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle; //0.5;//pid.p_tht;//throttle;// 0.3;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          std::cout << msg << std::endl;
+          //std::cout << "<cte " <<cte<<" ang "<<angle<<" "<<msg << std::endl;
+          std::cout << "cte ang steer " <<cte<<" "<<angle<<" "<<steer_value << " "<<rad2deg(steer_value)<<" th "<<throttle << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }
       } else {
